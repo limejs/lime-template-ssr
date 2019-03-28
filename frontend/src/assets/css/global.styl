@@ -1,0 +1,176 @@
+/* 全局盒子模型调整为 border-box */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*
+ * -- 基础样式 --
+ * 调整 purecss 的默认基础样式
+ */
+body {
+    line-height: 1.7em;
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    color: #34495e;
+}
+
+/* 定制一个图片自适应的类，pure默认的pure-img多了一个display:block. */
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+/*
+ * -- 布局样式 --
+ * 创建几个自己需要的布局样式。l-box是一个横向文字内容容器；l-box-lrg是一个横向内容大容器；
+ */
+.l-box {
+    padding: 1em;
+}
+
+.l-box-lrg {
+    padding: 2em;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* 状态样式 */
+.is-center {
+    text-align: center;
+}
+
+
+
+/*
+ * -- 表单样式 --
+ * 修改 pure-form 表单模块的 label和input样式
+ */
+.pure-form label {
+    margin: 1em 0 0;
+    font-weight: bold;
+    font-size: 100%;
+}
+
+.pure-form input[type] {
+    border: 2px solid #ddd;
+    box-shadow: none;
+    font-size: 100%;
+    width: 100%;
+    margin-bottom: 1em;
+}
+.pure-form input.pure-input-rounded, .pure-form .pure-input-rounded {
+  border-radius: .2em
+}
+.pure-form input[type] {
+  margin: 0;  
+}
+.pure-form label {
+  margin: 0  
+}
+
+/*
+ * -- 按钮模块样式 --
+ * 直接修改 pure-button 模块的默认class的样式，以定制自己的样式（因为我整站不需要他的默认样式）
+ */
+.pure-button {
+    background-color: #1f8dd6;
+    color: white;
+    padding: 0.5em 2em;
+    border-radius: 5px;
+}
+
+a.pure-button-primary {
+    background: white;
+    color: #1f8dd6;
+    border-radius: 5px;
+    font-size: 120%;
+}
+
+.button-del
+{
+  color: #f00;
+  background: white;
+  padding: .2em 1em;
+  vertical-align: sub;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.button-edit
+{
+  margin-right: .2em;
+  color: #2d3e4f;
+  background: white;
+  padding: .2em 1em;
+  vertical-align: sub;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+
+/*
+ * --  菜单模块样式 --
+ * 对 .pure-menu 的外观进行适当修改
+ */
+
+.home-menu {
+    padding: 0.5em;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+.home-menu {
+    background: #2d3e50;
+}
+.pure-menu.pure-menu-fixed {
+    /* Fixed menus normally have a border at the bottom. */
+    border-bottom: none;
+    /* I need a higher z-index here because of the scroll-over effect. */
+    z-index: 4;
+}
+
+.home-menu .pure-menu-heading {
+    color: white;
+    font-weight: 400;
+    font-size: 120%;
+}
+
+
+
+.home-menu a {
+    color: #6FBEF3;
+}
+.home-menu li a:hover,
+.home-menu li a:focus,
+.home-menu li a.pure-menu-link:visited {
+    background: none;
+    border: none;
+    color: #AECFE5;
+}
+
+.home-menu li.pure-menu-selected a.pure-menu-link{
+    color: white;
+}
+
+
+@media (min-width: 48em) {
+
+    /* We increase the body font size */
+    body {
+        font-size: 16px;
+    }
+}
