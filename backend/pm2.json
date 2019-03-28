@@ -1,0 +1,16 @@
+{
+  "apps" : [
+      {
+        "name"        : "lime-standard-project",
+        "script"      : "npm start",
+        "merge_logs"  : true,
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "instances": 2,
+        "exec_mode"  : "cluster_mode",
+        "autorestart": true,
+        "log_date_format": "YYYY-MM-DD HH:mm Z"
+      }
+  ]
+}

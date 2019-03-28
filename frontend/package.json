@@ -1,0 +1,12 @@
+{
+  "name": "lime-template-ssr",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.client.conf.js",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cross-env BUILD_TARGET=client node build/build.js",
+    "build:server": "cross-env BUILD_TARGET=server node build/build.js"
+  },
+  "dependencies": {
+    "@limejs/core": "latest"
+  }
+}

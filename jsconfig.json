@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "@src": ["./frontend/src"],
+      "@apis": ["./frontend/src/apis"],
+      "@mixins": ["./frontend/src/mixins"],
+      "@directives": ["./frontend/src/directives"],
+      "@filters": ["./frontend/src/filters"],
+      "@libs": ["./frontend/src/libs"],
+      "@plugins": ["./frontend/src/plugins"],
+      "@stores": ["./frontend/src/stores"],
+      "@router": ["./frontend/src/router"],
+      "@views": ["./frontend/src/views"],
+      "@assets": ["./frontend/src/views/assets"],
+      "@components":["./frontend/src/views/components"],
+      "@biz": ["./frontend/src/views/components/biz"],
+      "@ui": ["./frontend/src/views/components/portal-ui"],
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

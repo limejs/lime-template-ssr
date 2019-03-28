@@ -1,0 +1,26 @@
+{
+  "name": "portal-pc-backend",
+  "version": "1.0.0",
+  "description": "comic portal backend",
+  "main": "entry.js",
+  "scripts": {
+    "debug": "cross-env DEBUG=lime:* NODE_ENV=development nodemon --inspect-brk=9229 entry.js",
+    "dev": "cross-env NODE_ENV=development nodemon entry.js",
+    "dev:proxy": "cross-env NODE_ENV=development PROXY=127.0.0.1:${npm_config_port} nodemon entry.js",
+    "start": "cross-env NODE_ENV=production node entry.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.code.oa.com/QQComic/portal-pc.git"
+  },
+  "keywords": [
+    "comic"
+  ],
+  "author": "tencent",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "webpack-hot-client": "^4.1.1"
+  }
+}

@@ -1,0 +1,18 @@
+master:
+  push:
+    - docker:
+        image: node
+      stages:
+        - name: 安装tnpm
+          script: npm install @tencent/tnpm -g --registry=http://r.tnpm.oa.com
+        - name: 依赖安装
+          script: tnpm install # 之后就可以使用tnpm了
+        - name: 构建
+          script: tnpm run build
+        - name: 触发 TAF编译
+          type: taf:tafweb_compile
+          options:
+            env_code: test
+            app_name: boodo
+            server_name: PCboodo
+            compile_env: Nodejs;64位编译环境;v10.x（公共）;tc-tlinux-nodejs-v9x;tlinux
