@@ -4,7 +4,7 @@
   "description": "lime-template-ssr",
   "private": true,
   "scripts": {
-    "preinstall": "cd frontend && npm install & cd ../backend && npm install",
+    "preinstall": "cd frontend && npm install && cd ../backend && npm install",
     "postinstall": "npm run build",
     "dev": "cd backend && npm run dev",
     "build": "cd frontend && npm run build",
@@ -42,7 +42,7 @@
     "mini-css-extract-plugin": "^0.5.0",
     "node-notifier": "^5.4.0",
     "nodemon": "^1.18.10",
-    "opn": "^6.0.0",
+    "open": "^6.0.0",
     "ora": "^3.2.0",
     "postcss-loader": "^3.0.0",
     "stylus": "^0.54.5",
@@ -63,5 +63,6 @@
   "license": "MIT",
   "dependencies": {
     "core-js": "^3.0.0"
-  }
+  },
+  "__npminstall_done": false
 }

@@ -1,5 +1,5 @@
 
-const open = require('opn')
+const open = require('open')
 
 module.exports = {
   command: 'doc',
