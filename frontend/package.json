@@ -1,16 +1,15 @@
 {
-  "name": "project",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "lime-template-ssr",
   "scripts": {
-    "clean": "rimraf dist",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
-    "build": "npm run clean && npm run build:prod",
-    "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.client.conf.js",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cross-env BUILD_TARGET=client node build/build.js",
+    "build:server": "cross-env BUILD_TARGET=server node build/build.js"
   },
-  "keywords": [],
-  "author": "sheldoncui <websheldoncui@gmail.com> ",
-  "license": "MIT"
+  "dependencies": {
+    "@limejs/core": "latest"
+  },
+  "devDependencies": {
+    "webpack": "latest"
+  }
 }
