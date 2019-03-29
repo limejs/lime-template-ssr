@@ -4,7 +4,7 @@
 
 ## 注意
 
-* 安装依赖时，开发依赖往根目录装，运行依赖往里面装。所谓运行依赖是指node层运行时需要的(如lime.js)，frontend层运行时需要的如vue、vuex。所谓开发依赖是指的node层dev需要的如nodemon，frontend层编译需要的如webpack。
+* 安装依赖时，开发依赖往根目录装，运行依赖往里面装(目的是为了让backend可以用最少的依赖独立部署)。所谓运行依赖是指node层运行时需要的(如lime.js)，frontend层运行时需要的如vue、vuex。所谓开发依赖是指的node层dev需要的如nodemon，frontend层编译需要的如webpack。
 
 ## Feature
 
@@ -23,6 +23,7 @@
 * TODO: 后端 api 单测 (p1)
 * TODO: 文档 (p1)
 * TODO: 发布优化: 静态资源 cdn 化和url自动替换
+* 开发cmds目录下的lime命令。用自定义命令优化开发体验（例如编译机编译时，要在根目录和frontend安装开发依赖，backend目录只安装生产依赖）
 
 
 ## 目录划分理念
