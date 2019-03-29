@@ -26,11 +26,6 @@ export default context => {
           })
         }
       })).then(() => {
-        // 检查该路由是否需要设置 顶层 div class
-        let wrapperClass = router.currentRoute.meta.wrapperClass
-        let showBgImg = router.currentRoute.meta.showBgImg
-        let docTitle = router.currentRoute.meta.title
-        context.title = docTitle ? `${docTitle} - {{name}}` : '{{name}}'
         // 注入 vue-meta
         context.meta = app.$meta();
         // 在所有预取钩子(preFetch hook) resolve 后，
