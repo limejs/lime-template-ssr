@@ -12,41 +12,32 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const TerserPlugin = require('terser-webpack-plugin')
 
-const globalConfig = require("../../config")
-const env = process.env.NODE_ENV || 'production'
+const config = require("./getconfig")
 
 const webpackConfig = {
-  // mode: config.env === 'development' ? 'development' : 'production',
   mode: 'none',
   performance: {
     maxEntrypointSize: 300000
   },
   context: resolvePathByRoot('.'),
   output: {
-    path: path.resolve(globalConfig.distPath, 'client'),
-    filename: 'static/js/[name].[chunkhash].js',
-    chunkFilename: 'static/js/[name].[chunkhash].js',
+    path: path.resolve(config.dist, 'client'),
+    filename: config.env.isDev ? 'static/js/[name].js' : 'static/js/[name].[chunkhash:7].js',
+    chunkFilename: config.env.isDev ? 'static/js/[name].js' : 'static/js/[name].[chunkhash:7].js',
     publicPath: '/'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'], // 这些扩展名文件在加载时可以省略模块文件名
+    extensions: ['.js', '.jsx', '.vue', '.json', '.styl', '.stylus', '.css', '.sass', 'scss', '.less'], // 这些扩展名文件在加载时可以省略模块文件名
     // 别名
     alias: {
       '@src': resolvePathByRoot('src'),
-      '@entry': resolvePathByRoot('src/entry'),
-      '@apis': resolvePathByRoot('src/apis'),
-      '@mixins': resolvePathByRoot('src/mixins'),
-      '@directives': resolvePathByRoot('src/directives'),
-      '@filters': resolvePathByRoot('src/filters'),
-      '@libs': resolvePathByRoot('src/libs'),
-      '@plugins': resolvePathByRoot('src/plugins'),
+      '@assets': resolvePathByRoot('src/assets'),
+      '@components': resolvePathByRoot('src/components'),
       '@stores': resolvePathByRoot('src/stores'),
+      '@pages': resolvePathByRoot('src/pages'),
+      '@apis': resolvePathByRoot('src/apis'),
+      '@libs': resolvePathByRoot('src/libs'),
       '@router': resolvePathByRoot('src/router'),
-      '@views': resolvePathByRoot('src/views'),
-      '@assets': resolvePathByRoot('src/views/assets'),
-      '@components':resolvePathByRoot('src/views/components'),
-      '@biz': resolvePathByRoot('src/views/components/biz'),
-      '@ui': resolvePathByRoot('src/views/components/portal-ui')
     }
   },
   module: {
@@ -54,19 +45,9 @@ const webpackConfig = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: getSassVueLoaders(),
-          cssSourceMap: env === 'production' ? true: false,
-          preserveWhitespace: false, // 不保留模板中的空格符
-          // 让模板编译时相关资源转换为 require 调用 https://vue-loader-v14.vuejs.org/zh-cn/options.html#transformtorequire
-          transformToRequire: {
-            video: ['src', 'poster'],
-            source: 'src',
-            img: 'src',
-            image: 'xlink:href'
-          }
-        }
+        use: [{
+          loader: 'vue-loader'
+        }]
       },
       {
         test: /\.js$/,
@@ -75,17 +56,38 @@ const webpackConfig = {
         options: {
           rootMode: "upward",
         }
-        // include: [resolvePathByRoot('src')], // 让 babel 只处理 src 目录下的 JavaScript 代码
       },
-      getStyleLoader('css'),
-      getStyleLoader('sass'),
-      getStyleLoader('scss'),
+      {
+        test: /\.jsx$/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            rootMode: 'upward'
+          }
+        }]
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(styl|stylus)$/,
+        use: [
+          config.env.isDev ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader'
+          },
+          'stylus-loader'
+        ]
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'static/img/[name].[hash:7].[ext]'
+          outputPath: 'static/img',
+          name: '[name].[hash:7].[ext]'
         }
       },
       {
@@ -93,7 +95,8 @@ const webpackConfig = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'static/media/[name].[hash:7].[ext]'
+          outputPath: 'static/media',
+          name: '[name].[hash:7].[ext]'
         }
       },
       {
@@ -101,7 +104,8 @@ const webpackConfig = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'static/fonts/[name].[hash:7].[ext]'
+          outputPath: 'static/fonts',
+          name: '[name].[hash:7].[ext]'
         }
       }
     ]
@@ -111,42 +115,28 @@ const webpackConfig = {
   ]
 }
 
-if (env === 'production') {
+if (config.env.isProd) {
   webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin()), // es语法作用域提升的优化
   // 服务端编译有必要抽离 css 吗 (貌似有必要，因为不抽离的话，服务端就会在渲染的html里塞入style样式，可能会跟客户端注入的独立css 重叠)
   webpackConfig.plugins.push(new MiniCssExtractPlugin({
     filename: 'static/css/[name].[chunkhash].css',
     // chunkFilename: '[id].[chunkhash].css'
   }))
-  // 服务端编译时有必要压缩吗 (其实也需要，比如在生产编译时，就让 server bundler 小一点，虽然是在node层运行的大小无关，但可能有点效果)
-  // webpackConfig.plugins.push(new UglifyJSPlugin({
-  //   sourceMap: config.needSourceMap,
-  //   parallel: true,
-  //   uglifyOptions: {
-  //     compress: {
-  //       warnings: true,
-  //       drop_console: true
-  //     }
-  //   }
-  // }))
   webpackConfig.plugins.push(new TerserPlugin({
     parallel: true,
     sourceMap: true
   }))
 }
-if (env === 'development') {
+if (config.env.isDev) {
   webpackConfig.plugins.push(new FriendlyErrorsPlugin({
     compilationSuccessInfo: {
-      messages: [`开发环境启动成功，项目运行在: http://${globalConfig.host}:${globalConfig.port}`]
+      messages: [`开发环境启动成功`]
     },
     onErrors: createNotifierCallback()
   }))
   // webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
   webpackConfig.plugins.push(new webpack.NamedModulesPlugin()) // HMR shows correct file names in console on update.
   webpackConfig.plugins.push(new webpack.NoEmitOnErrorsPlugin())
-  // these devServer options should be customized in /config/index.js
-  const HOST = process.env.HOST || '127.0.0.1'
-  const PORT = process.env.PORT && Number(process.env.PORT) || globalConfig.port
   webpackConfig.devServer = {
     disableHostCheck: true,
     clientLogLevel: 'warning',
@@ -158,8 +148,6 @@ if (env === 'development') {
     hot: true, // 热加载
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
-    host: HOST,
-    port: PORT,
     open: true,
     overlay: { warnings: true, errors: true },
     publicPath: '/',

@@ -5,13 +5,16 @@ const MFS = require('memory-fs')
 const webpack = require('webpack')
 // 监听文件变化，兼容性更好(比fs.watch、fs.watchFile、fsevents)
 const chokidar = require('chokidar')
-const globalConfig = require('../../../config')
-const clientConfig = require(path.join(globalConfig.buildPath, 'webpack.client.conf.js'))
-const serverConfig = require(path.join(globalConfig.buildPath, 'webpack.server.conf.js'))
+
 // webpack热加载需要
 const webpackDevMiddleware = require('koa-webpack-dev-middleware')
 // 配合热加载实现模块热替换
 const webpackHotMiddleware = require('koa-webpack-hot-middleware')
+
+const feBuildPath = path.resolve(__dirname, '../../../frontend/build')
+const clientConfig = require(path.join(feBuildPath, 'webpack.client.conf.js'))
+const serverConfig = require(path.join(feBuildPath, 'webpack.server.conf.js'))
+
 
 // 读取vue-ssr-webpack-plugin生成的文件
 const readFile = (fs, curpath, file) => {

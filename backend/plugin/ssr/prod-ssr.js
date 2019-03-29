@@ -1,14 +1,15 @@
 const serve = require('koa-static')
-const sfbConfig = require('../../../config')
-const config = require('../../config/ssr')
 const path = require('path')
 const compose = require('koa-compose')
-const clientOutputPath = path.join(sfbConfig.distPath, 'client')
-const serverOutputPath = path.join(sfbConfig.distPath, 'server')
+
 const { createBundleRenderer } = require('vue-server-renderer')
 const fs = require('fs')
 const debug = require('debug')('lime:ssr')
 const { renderToClient } = require('./utils')
+
+
+const clientOutputPath = path.resolve(__dirname, '../../fe-dist/client')
+const serverOutputPath = path.resolve(__dirname, '../../fe-dist/server')
 
 let renderer = null
 exports.createRenderer = function() {
@@ -42,7 +43,7 @@ async function serveStaticFile(ctx, next) {
 }
 
 async function serveHtmlFile(ctx, next) {
-  const ssrMode = ctx.query._mode ? ctx.query._mode : config.default
+  const ssrMode = ctx.query._mode ? ctx.query._mode : 'static'
   if (ssrMode === 'static') {
     debug('renderPureHtml')
     return renderPureHtml(ctx)

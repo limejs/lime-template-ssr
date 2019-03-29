@@ -20,47 +20,6 @@ module.exports = {
   resolvePathByRoot(filepath) {
     return path.resolve(__dirname, '..', filepath)
   },
-
-  getStyleLoader(ext) {
-    return {
-      test: new RegExp(`\\.${ext}$`),
-      use: module.exports.getSassVueLoaders()[ext] // webpack 多 loader 用 use 形式
-    }
-  },
-
-  getSassVueLoaders(ext) {
-
-    const baseLoader = [
-      isProd ? {
-        loader: MiniCssExtractPlugin.loader
-      } : 'vue-style-loader', {
-      loader: 'css-loader',
-      options: {
-        sourceMap: true
-      }
-    }]
-
-    function generateLoader(ext, loaderOptions) {
-      const loaders = baseLoader.slice()
-      if (ext) {
-        loaders.push({
-          loader: `${ext}-loader`,
-          options: Object.assign({}, {
-            sourceMap: true
-          }, loaderOptions)
-        })
-      }
-
-      return loaders
-    }
-
-    return {
-      css: generateLoader(),
-      sass: generateLoader('sass', { indentedSyntax: true }),
-      scss: generateLoader('sass')
-    }
-  },
-
   checkVersion() {
     const moduleRequirement = [
       {

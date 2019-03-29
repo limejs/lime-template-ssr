@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import App from '@views/App'
+import App from '@pages/App'
 import { sync } from 'vuex-router-sync'
 import { createRouter } from '@router/create-router'
 import { createStore } from '@stores/store'
 import VueMeta from 'vue-meta'
+import '@assets/css/global'
 
 export function createApp() {
   const router = createRouter()

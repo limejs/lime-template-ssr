@@ -3,9 +3,8 @@ const open = require('opn')
 
 module.exports = {
   command: 'doc',
-  description: '查看 lime-tpl-standard 框架帮助文档',
-  action() {
-    open('https://www.example.com')
-    process.exit(0)
+  description: '查看帮助文档',
+  async action() {
+    open('https://github.com/limejs/lime')
   }
 }

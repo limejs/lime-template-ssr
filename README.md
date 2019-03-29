@@ -2,6 +2,10 @@
 
 <p align="center">基于 webpack 工作流，采用 Vue SSR 实现服务端同构渲染的 SFB (前后端分离)同构应用</p>
 
+## 注意
+
+* 安装依赖时，开发依赖往根目录装，运行依赖往里面装。所谓运行依赖是指node层运行时需要的(如lime.js)，frontend层运行时需要的如vue、vuex。所谓开发依赖是指的node层dev需要的如nodemon，frontend层编译需要的如webpack。
+
 ## Feature
 
 * 基于 Babel7 和 webpack4 全面拥抱 ESNext 语法

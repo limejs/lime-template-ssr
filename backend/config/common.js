@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
     // lime core config
     env: process.env.NODE_ENV,

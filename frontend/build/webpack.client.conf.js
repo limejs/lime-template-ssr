@@ -8,9 +8,7 @@ const webpackBaseConfig = require('./webpack.base.conf')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
-
-const config = require('../../config')
-const env = process.env.NODE_ENV || 'production'
+const config = require('./getconfig')
 
 const webpackConfig = merge(webpackBaseConfig, {
   entry: {
@@ -20,7 +18,7 @@ const webpackConfig = merge(webpackBaseConfig, {
     rules: [
     ]
   },
-  devtool: env === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
+  devtool: config.env.isDev ? 'cheap-module-eval-source-map' : 'source-map',
   optimization: {
     minimize: false,
     // extract webpack runtime & manifest to avoid vendor chunk hash changing
@@ -48,25 +46,25 @@ const webpackConfig = merge(webpackBaseConfig, {
   },  
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env || 'production'),
+      'process.env.NODE_ENV': JSON.stringify(config.env.name || 'production'),
       'process.env.VUE_ENV': '"client"'
     }),
     // 额外编译一个 client 的 html，用于线上异常时优雅降级为纯异步 https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: path.resolve(config.distPath, 'client/index.html'),
-      template: resolvePathByRoot('src/views/index.html'),
+      filename: path.resolve(config.dist, 'client/index.html'),
+      template: resolvePathByRoot('src/templates/index.spa.html'),
       inject: true,
       minify: {
-        removeComments: env === 'development' ? false :  true,
-        collapseWhitespace: env === 'development' ? false :  true,
-        removeAttributeQuotes: env === 'development' ? false :  true
+        removeComments: config.env.isDev ? false :  true,
+        collapseWhitespace: config.env.isDev ? false :  true,
+        removeAttributeQuotes: config.env.isDev ? false :  true
       }
     }),
     new VueSSRClientPlugin(),
     // 拷贝 static 目录内容到 dist
     new CopyWebpackPlugin([
       {
-        from: resolvePathByRoot('src/static'),
+        from: resolvePathByRoot('static'),
         to: 'static',
         ignore: ['.*']
       }

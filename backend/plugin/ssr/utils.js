@@ -18,12 +18,6 @@ exports.getContext = function(ctx) {
 
 
 exports.renderToClient = async function (ctx, renderer) {
-  let isIE = +(ctx.get('user-agent').match(/MSIE (\d+)/) && RegExp.$1);
-  console.log('IE浏览器', isIE)
-  if (isIE && Number(isIE) && Number(isIE) <= 8 && ctx.path != '/ie') {
-    // ie8 以下访问pc端，跳到ie升级
-    return ctx.redirect('/ie')
-  }
   // ssr 逻辑
   let context = exports.getContext(ctx)
   let d = domain.create()

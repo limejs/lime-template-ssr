@@ -1,5 +1,5 @@
 module.exports = {
   async main(ctx, next) {
-    await this.view.spa(ctx, next)
+    await this.vuessr()
   }
 }

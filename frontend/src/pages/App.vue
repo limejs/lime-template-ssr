@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import CoolFooter from './components/footer'
+import CoolFooter from '@components/Footer'
 
 export default {
   components: {

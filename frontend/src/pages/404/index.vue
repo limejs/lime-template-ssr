@@ -6,7 +6,7 @@
     </div>
 </template>
 
-<style lang="scss" src='./sass/index.scss'>
+<style lang="stylus" src='./css/index'>
 </style>
 
 <script>

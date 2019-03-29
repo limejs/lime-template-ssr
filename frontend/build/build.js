@@ -10,27 +10,25 @@ const chalk = require('chalk')
 const fs = require('fs-extra')
 const webpack = require('webpack')
 const util = require('util')
-const config = require('../../config')
 const webpackServerConf = require('./webpack.server.conf')
 const webpackClientConf = require('./webpack.client.conf')
 const { checkVersion } = require('./utils')
+const config = require('./getconfig')
 
 // 检查本机环境 node 是否符合项目要求
 checkVersion()
 
 const target = process.env.BUILD_TARGET
 
-const env = process.env.NODE_ENV || 'production'
-
 const webpackConfig = (target === 'server' ? webpackServerConf : webpackClientConf)
 
 async function startBuild() {
-  const spinner = ora(`building for ${env}...`)
+  const spinner = ora(`building for ${config.env.name}...`)
   spinner.start()
   
   try {
     if (target !== 'server') {
-      await fs.remove(path.join(config.distPath, 'client/static'))
+      await fs.remove(path.join(config.dist, 'client/static'))
     }
     const pwebpack = util.promisify(webpack)
     let stats = await pwebpack(webpackConfig)
@@ -47,7 +45,7 @@ async function startBuild() {
       console.log(chalk.red('  编译出错.\n'))
       process.exit(1)
     }
-    console.log(chalk.cyan(`  编译完成[NODE_ENV=${env} TARGET=${target}].\n`))
+    console.log(chalk.cyan(`  编译完成[NODE_ENV=${config.env.name} TARGET=${target}].\n`))
   }
   catch(err) {
     spinner.stop()

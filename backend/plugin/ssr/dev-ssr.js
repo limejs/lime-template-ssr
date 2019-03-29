@@ -1,17 +1,18 @@
 
 const setDevServer = require('./setup-dev-server')
 const path = require('path')
-const globalConfig = require('../../../config')
-const config = require('../../config/ssr')
-const serverTemplatePath = path.resolve(__dirname, './index.template.html')
+const serverTemplatePath = path.resolve(__dirname, '../../../frontend/src/templates/index.ssr.html')
 const { createBundleRenderer } = require('vue-server-renderer')
-const webpackClientConfig = require(path.join(globalConfig.buildPath, 'webpack.client.conf.js'))
+
 const debug = require('debug')('lime:ssr')
 const { renderToClient } = require('./utils')
 
 let renderer = null
 let devMiddleware = null
 let readyPromise = null
+
+const feBuildPath = path.resolve(__dirname, '../../../frontend/build')
+const webpackClientConfig = require(path.join(feBuildPath, 'webpack.client.conf.js'))
 
 exports.createRenderer = function (app) {
   readyPromise = setDevServer(app, serverTemplatePath, (bundle, { clientManifest, template}) => {
@@ -25,7 +26,7 @@ exports.createRenderer = function (app) {
 
 
 exports.dossr = async function (ctx, next) {
-  const ssrMode = ctx.query._mode ? ctx.query._mode : config.default
+  const ssrMode = ctx.query._mode ? ctx.query._mode : 'static'
 
   if (ssrMode === 'ssr') {
     debug('renderSSRHtml')
@@ -45,7 +46,7 @@ async function renderSSRHtml(ctx) {
   }
   catch(err) {
     debug('rederSSR failed, transform to renderPureHtml...', err)
-    console.log('SSR失败，退化为异步版； 失败原因: ', err)
+    logger.warn('SSR失败，退化为异步版； 失败原因: ', err)
     return renderPureHtml(ctx)
   }
 }
