@@ -14,7 +14,7 @@
   "license": "ISC",
   "devDependencies": {},
   "dependencies": {
-    "@limejs/core": "^0.3.0",
+    "@limejs/core": "^0.4.0",
     "koa-static": "^5.0.0",
     "koa2-useragent": "^0.3.1",
     "vue-server-renderer": "^2.6.10"

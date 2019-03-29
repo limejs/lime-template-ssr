@@ -8,6 +8,7 @@ module.exports = function(app, options){
     devSSR.createRenderer(app) // 开发环境初始化renderer，其内部会随着webpack编译自动重新初始化renderer.
   }
   else {
+    console.log('come here')
     prodSSR = require('./prod-ssr')
     prodSSR.createRenderer()
   }
